@@ -147,12 +147,12 @@ export default function AQ10Test() {
                 </CardContent>
               </Card>
               
-              <div className="flex gap-4 justify-center">
-                <Button onClick={() => setShowDownload(true)} className="bg-blue-600 hover:bg-blue-700">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+                <Button onClick={() => setShowDownload(true)} className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto">
                   <CheckCircle className="w-4 h-4 mr-2" />
                   Descargar Resultados
                 </Button>
-                <Button onClick={restartTest} variant="outline">
+                <Button onClick={restartTest} variant="outline" className="w-full sm:w-auto">
                   Realizar Test Nuevamente
                 </Button>
               </div>
