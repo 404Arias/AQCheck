@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String       @id @default(cuid())
+  email       String?
+  name        String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  payments    Payment[]
+  testResults TestResult[]
+}
+
+model TestResult {
+  id        String   @id @default(cuid())
+  userId    String?
+  testType  TestType
+  answers   Json
+  score     Int
+  result    String
+  createdAt DateTime @default(now())
+  payment   Payment?
+  user      User?    @relation(fields: [userId], references: [id])
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  userId        String?
+  testResultId  String?       @unique
+  amount        Float
+  currency      String        @default("USD")
+  paymentMethod PaymentMethod
+  transactionId String?
+  status        PaymentStatus
+  createdAt     DateTime      @default(now())
+  testResult    TestResult?   @relation(fields: [testResultId], references: [id])
+  user          User?         @relation(fields: [userId], references: [id])
+}
+
+model Config {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum TestType {
+  AQ10
+  AQ50
+}
+
+enum PaymentMethod {
+  PAYPAL
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+  REFUNDED
+}
