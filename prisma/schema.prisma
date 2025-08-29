@@ -13,7 +13,6 @@ model User {
   name        String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
-  payments    Payment[]
   testResults TestResult[]
 }
 
@@ -25,23 +24,23 @@ model TestResult {
   score     Int
   result    String
   createdAt DateTime @default(now())
-  payment   Payment?
   user      User?    @relation(fields: [userId], references: [id])
 }
 
-model Payment {
-  id            String        @id @default(cuid())
-  userId        String?
-  testResultId  String?       @unique
-  amount        Float
-  currency      String        @default("USD")
-  paymentMethod PaymentMethod
-  transactionId String?
-  status        PaymentStatus
-  createdAt     DateTime      @default(now())
-  testResult    TestResult?   @relation(fields: [testResultId], references: [id])
-  user          User?         @relation(fields: [userId], references: [id])
-}
+// Payment model disabled for free version
+// model Payment {
+//   id            String        @id @default(cuid())
+//   userId        String?
+//   testResultId  String?       @unique
+//   amount        Float
+//   currency      String        @default("USD")
+//   paymentMethod PaymentMethod
+//   transactionId String?
+//   status        PaymentStatus
+//   createdAt     DateTime      @default(now())
+//   testResult    TestResult?   @relation(fields: [testResultId], references: [id])
+//   user          User?         @relation(fields: [userId], references: [id])
+// }
 
 model Config {
   id        String   @id @default(cuid())
@@ -56,13 +55,14 @@ enum TestType {
   AQ50
 }
 
-enum PaymentMethod {
-  PAYPAL
-}
+// Payment enums disabled for free version
+// enum PaymentMethod {
+//   PAYPAL
+// }
 
-enum PaymentStatus {
-  PENDING
-  COMPLETED
-  FAILED
-  REFUNDED
-}
+// enum PaymentStatus {
+//   PENDING
+//   COMPLETED
+//   FAILED
+//   REFUNDED
+// }
