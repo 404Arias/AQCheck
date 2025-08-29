@@ -9,6 +9,12 @@ const nextConfig: NextConfig = {
   },
   trailingSlash: false,
   generateEtags: false,
+  async redirects() {
+    return []
+  },
+  async rewrites() {
+    return []
+  },
 };
 
 export default nextConfig;
