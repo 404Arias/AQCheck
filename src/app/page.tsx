@@ -175,7 +175,7 @@ export default function Home() {
             </Badge>
           </div>
 
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight animate-scale-in">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold mb-8 leading-tight animate-scale-in">
             <span className="bg-gradient-to-r from-slate-900 via-blue-700 to-purple-700 bg-clip-text text-transparent">
               Descubre tu perfil del
             </span>
@@ -185,7 +185,7 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed animate-slide-up">
+          <p className="text-lg sm:text-xl md:text-2xl text-slate-600 mb-12 max-w-4xl mx-auto leading-relaxed animate-slide-up px-4">
             Tests{" "}
             <span className="font-semibold text-blue-600">
               científicamente validados
@@ -223,7 +223,7 @@ export default function Home() {
           </div>
 
           {/* Enhanced Trust Indicators */}
-          <div className="grid md:grid-cols-3 gap-8 mt-20 animate-slide-up">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 mt-20 animate-slide-up px-4">
             <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20 hover:shadow-xl transition-shadow group">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -290,10 +290,10 @@ export default function Home() {
               <Brain className="h-4 w-4" />
               Tests Científicamente Validados
             </div>
-            <h3 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
               Evaluaciones Disponibles
             </h3>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed px-4">
               Elige la evaluación que mejor se adapte a tus necesidades. Ambos
               tests están{" "}
               <span className="font-semibold text-blue-600">
@@ -303,7 +303,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto px-4">
             {/* AQ-10 Card */}
             <Card className="group hover:shadow-2xl hover:-translate-y-3 transition-all duration-500 bg-white/80 backdrop-blur-sm border-0 shadow-xl relative overflow-hidden animate-scale-in">
               {/* Decorative background */}
@@ -503,14 +503,14 @@ export default function Home() {
                 </p>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full">
+              <div className="overflow-x-auto shadow-lg rounded-lg bg-white">
+                <table className="w-full min-w-[600px]">
                   <thead>
                     <tr className="border-b-2 border-slate-200">
-                      <th className="text-left py-4 px-4 font-bold text-slate-800 text-lg">
+                      <th className="text-left py-3 px-2 sm:py-4 sm:px-4 font-bold text-slate-800 text-sm sm:text-lg">
                         Característica
                       </th>
-                      <th className="text-center py-4 px-4">
+                      <th className="text-center py-3 px-2 sm:py-4 sm:px-4">
                         <div className="flex flex-col items-center gap-2">
                           <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
                             <span className="text-white font-bold">10</span>
@@ -657,7 +657,7 @@ export default function Home() {
               <Star className="h-4 w-4" />
               Historias de Éxito
             </div>
-            <h3 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent mb-6">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 bg-clip-text text-transparent mb-6">
               Personajes Exitosos con Autismo
             </h3>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
@@ -669,7 +669,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 px-4">
             {/* Elon Musk */}
             <Card className="text-center group hover:shadow-xl hover:-translate-y-2 transition-all duration-500 bg-white/80 backdrop-blur-sm border-0 shadow-lg animate-scale-in">
               <CardContent className="pt-8 pb-8">
@@ -971,7 +971,7 @@ export default function Home() {
                 </h4>
               </div>
 
-              <div className="grid md:grid-cols-3 gap-8 text-center">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 text-center">
                 <div>
                   <div className="text-3xl font-bold text-blue-600 mb-2">
                     2001
@@ -1024,25 +1024,25 @@ export default function Home() {
               <span className="text-blue-100 font-medium">Evaluación Profesional</span>
             </div>
             
-            <h3 className="text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
+            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-6 leading-tight">
               ¿Listo para descubrir 
               <span className="bg-gradient-to-r from-blue-300 to-purple-300 bg-clip-text text-transparent block mt-2">
                 tu perfil único?
               </span>
             </h3>
             
-            <p className="text-xl md:text-2xl text-blue-100/90 mb-4 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-blue-100/90 mb-4 max-w-3xl mx-auto leading-relaxed px-4">
               Inicia tu camino hacia el autoconocimiento con nuestras evaluaciones validadas científicamente
             </p>
             
-            <p className="text-blue-200/70 max-w-2xl mx-auto">
+            <p className="text-blue-200/70 max-w-2xl mx-auto px-4">
               Miles de personas ya han descubierto aspectos importantes sobre sí mismas. 
               Tu turno de explorar y entender tu perfil único.
             </p>
           </div>
 
           {/* Test Options Cards */}
-          <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-4xl mx-auto animate-slide-up">
+          <div className="grid md:grid-cols-2 gap-6 mb-12 max-w-4xl mx-auto animate-slide-up px-4">
             {/* AQ-10 Card */}
             <div className="group bg-white/10 backdrop-blur-lg rounded-2xl border border-white/20 p-8 hover:bg-white/15 transition-all duration-300 hover:scale-105 hover:shadow-2xl">
               <div className="bg-gradient-to-r from-green-500 to-emerald-500 w-16 h-16 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
@@ -1087,7 +1087,7 @@ export default function Home() {
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-8 text-blue-200/60 text-sm animate-fade-in">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8 text-blue-200/60 text-sm animate-fade-in px-4">
             <div className="flex items-center gap-2">
               <Users className="h-5 w-5" />
               <span>+50,000 evaluaciones completadas</span>
@@ -1111,7 +1111,7 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           {/* Main Footer Content */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
             {/* Brand Section */}
             <div className="space-y-6">
               <div className="flex items-center space-x-3">
