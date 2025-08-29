@@ -1,11 +1,26 @@
 {
-  "buildCommand": "npm run build",
-  "installCommand": "npm install",
   "framework": "nextjs",
-  "rewrites": [
+  "functions": {
+    "app/api/**/*.ts": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "routes": [
     {
-      "source": "/test/(.*)",
-      "destination": "/test/$1"
+      "src": "/test/aq10",
+      "dest": "/test/aq10"
+    },
+    {
+      "src": "/test/aq50", 
+      "dest": "/test/aq50"
+    },
+    {
+      "src": "/admin",
+      "dest": "/admin"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
     }
   ]
 }
