@@ -1,29 +1,317 @@
+"use client";
+
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, ArrowRight, CheckCircle, Info } from "lucide-react";
+import { toast } from "sonner";
+import { DownloadOptions } from "@/components/download-options";
+
+const aq50Questions = [
+  "Prefiero hacer las cosas junto con otros antes que solo",
+  "Prefiero hacer las cosas de la misma forma una y otra vez",
+  "Si trato de imaginar algo, me resulta muy fácil crear una imagen mental",
+  "Frecuentemente me absorbo tanto en una cosa que pierdo la noción de otras cosas",
+  "A menudo noto pequeños sonidos cuando otros no los notan",
+  "Generalmente me doy cuenta de números de matrículas de automóviles u otra información similar",
+  "Otras personas frecuentemente me dicen que lo que he dicho es maleducado, aunque yo creo que es educado",
+  "Cuando estoy leyendo una historia, fácilmente puedo imaginar cómo lucen los personajes",
+  "Me fascina las fechas",
+  "En un grupo social, puedo seguir fácilmente las conversaciones de varias personas",
+  "Me parece fácil hacer vida social",
+  "Tiendo a notar detalles que otros no notan",
+  "Prefiero ir a una biblioteca antes que a una fiesta",
+  "Me parece fácil inventar historias",
+  "Me siento atraído más hacia las personas que hacia las cosas",
+  "Tiendo a tener intereses muy fuertes, de los cuales me molesto si no puedo disfrutar",
+  "Disfruto de la charla social",
+  "Cuando hablo, no siempre es fácil para otros entender lo que quiero decir",
+  "Me fascina más los números que las palabras",
+  "Cuando estoy leyendo una historia, me parece difícil entender las intenciones de los personajes",
+  "No me gusta particularmente leer ficción",
+  "Me parece difícil hacer nuevos amigos",
+  "Noto patrones en las cosas todo el tiempo",
+  "Prefiero ir al teatro que al museo",
+  "No me molesta si se interrumpe mi rutina diaria",
+  "Frecuentemente me doy cuenta que no sé cómo mantener una conversación en marcha",
+  "Me parece fácil 'leer entre líneas' cuando alguien me habla",
+  "Generalmente me concentro más en el panorama general que en los pequeños detalles",
+  "No soy muy bueno recordando números telefónicos",
+  "Frecuentemente no noto pequeños cambios en una situación o en la apariencia de una persona",
+  "Sé cómo decir si alguien que me escucha se está aburriendo",
+  "Me parece fácil hacer más de una cosa a la vez",
+  "Cuando hablo por teléfono, no estoy seguro de cuándo es mi turno para hablar",
+  "Disfruto haciendo las cosas espontáneamente",
+  "Soy a menudo el último en entender el punto de un chiste",
+  "Me parece fácil entender lo que alguien está pensando o sintiendo con sólo mirar su cara",
+  "Si hay una interrupción, puedo volver a lo que estaba haciendo muy rápidamente",
+  "Soy bueno en la charla social",
+  "La gente me dice frecuentemente que repito lo mismo una y otra vez",
+  "Cuando era joven, disfrutaba jugando juegos que involucraban pretender con otros niños",
+  "Me gusta coleccionar información acerca de categorías de cosas",
+  "Me parece difícil imaginar cómo sería ser otra persona",
+  "Me gusta planificar cuidadosamente cualquier actividad en la que participo",
+  "Disfruto ocasiones sociales",
+  "Me parece difícil entender las intenciones de las personas",
+  "Las situaciones nuevas me ponen ansioso",
+  "Disfruto conociendo gente nueva",
+  "Soy una persona diplomática",
+  "No soy muy bueno recordando las fechas de nacimiento de las personas",
+  "Me parece muy fácil jugar con niños involucrando juegos de hacer creer"
+];
+
+const options = [
+  { value: "1", label: "Definitivamente en desacuerdo", description: "Nunca o casi nunca" },
+  { value: "2", label: "En desacuerdo", description: "Raramente" },
+  { value: "3", label: "De acuerdo", description: "Frecuentemente" }, 
+  { value: "4", label: "Definitivamente de acuerdo", description: "Siempre o casi siempre" },
+];
+
 export default function AQ50Test() {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState<string[]>(new Array(50).fill(""));
+  const [showResults, setShowResults] = useState(false);
+  const [showDownload, setShowDownload] = useState(false);
+
+  // Questions that are reverse-scored (social questions)
+  const reverseQuestions = [0, 2, 7, 10, 13, 14, 16, 23, 26, 27, 29, 30, 33, 35, 36, 37, 39, 42, 43, 46, 47, 48, 49];
+
+  const handleAnswer = (value: string) => {
+    const newAnswers = [...answers];
+    newAnswers[currentQuestion] = value;
+    setAnswers(newAnswers);
+  };
+
+  const nextQuestion = () => {
+    if (answers[currentQuestion] === "") {
+      toast.error("Por favor selecciona una respuesta antes de continuar");
+      return;
+    }
+    
+    if (currentQuestion < 49) {
+      setCurrentQuestion(currentQuestion + 1);
+    }
+  };
+
+  const prevQuestion = () => {
+    if (currentQuestion > 0) {
+      setCurrentQuestion(currentQuestion - 1);
+    }
+  };
+
+  const calculateScore = () => {
+    let score = 0;
+    
+    answers.forEach((answer, index) => {
+      const numAnswer = parseInt(answer);
+      
+      if (reverseQuestions.includes(index)) {
+        // Reverse scoring: 1→4, 2→3, 3→2, 4→1
+        const reversedScore = 5 - numAnswer;
+        if (reversedScore >= 3) score += 1;
+      } else {
+        // Normal scoring: 3 or 4 gets 1 point
+        if (numAnswer >= 3) score += 1;
+      }
+    });
+    
+    return score;
+  };
+
+  const getScoreLevel = (score: number) => {
+    if (score >= 32) return { level: "Muy Alto", color: "bg-red-100 text-red-800", description: "Indicadores muy significativos de rasgos autistas" };
+    if (score >= 26) return { level: "Alto", color: "bg-red-100 text-red-800", description: "Indicadores significativos de rasgos autistas" };
+    if (score >= 22) return { level: "Moderado-Alto", color: "bg-yellow-100 text-yellow-800", description: "Algunos indicadores significativos de rasgos autistas" };
+    if (score >= 15) return { level: "Moderado", color: "bg-yellow-100 text-yellow-800", description: "Algunos indicadores de rasgos autistas" };
+    return { level: "Bajo", color: "bg-green-100 text-green-800", description: "Pocos indicadores de rasgos autistas" };
+  };
+
+  const finishTest = () => {
+    if (answers.some(answer => answer === "")) {
+      toast.error("Por favor completa todas las preguntas");
+      return;
+    }
+    setShowResults(true);
+  };
+
+  const restartTest = () => {
+    setCurrentQuestion(0);
+    setAnswers(new Array(50).fill(""));
+    setShowResults(false);
+    setShowDownload(false);
+  };
+
+  if (showResults) {
+    const score = calculateScore();
+    const scoreInfo = getScoreLevel(score);
+    
+    const testResult = {
+      testType: "AQ-50 (Autism Quotient Extended)",
+      score: score,
+      maxScore: 50,
+      level: scoreInfo.level,
+      description: scoreInfo.description,
+      recommendation: score >= 26 ? "Se recomienda fuertemente consultar con un profesional especializado" : score >= 15 ? "Se recomienda consultar con un profesional si hay preocupaciones" : "Mantener seguimiento si surgen preocupaciones"
+    };
+
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white p-8">
+        <div className="max-w-4xl mx-auto">
+          <Card className="shadow-lg">
+            <CardHeader className="text-center">
+              <CardTitle className="text-3xl text-purple-900">Resultados del Test AQ-50</CardTitle>
+              <CardDescription>Cuestionario extendido de detección de rasgos autistas</CardDescription>
+            </CardHeader>
+            
+            <CardContent className="space-y-6">
+              <div className="text-center">
+                <div className="inline-flex items-center justify-center w-24 h-24 bg-purple-100 rounded-full mb-4">
+                  <span className="text-3xl font-bold text-purple-900">{score}</span>
+                </div>
+                <p className="text-lg text-gray-600">Puntuación total: {score}/50</p>
+              </div>
+              
+              <div className="flex justify-center">
+                <Badge className={`${scoreInfo.color} px-4 py-2 text-lg`}>
+                  Nivel: {scoreInfo.level}
+                </Badge>
+              </div>
+              
+              <Card className="bg-purple-50">
+                <CardContent className="p-6">
+                  <h3 className="font-semibold text-purple-900 mb-2">Interpretación</h3>
+                  <p className="text-purple-800">{scoreInfo.description}</p>
+                  {testResult.recommendation && (
+                    <p className="text-purple-700 mt-2 font-medium">{testResult.recommendation}</p>
+                  )}
+                </CardContent>
+              </Card>
+              
+              <div className="flex gap-4 justify-center">
+                <Button onClick={() => setShowDownload(true)} className="bg-purple-600 hover:bg-purple-700">
+                  <CheckCircle className="w-4 h-4 mr-2" />
+                  Descargar Resultados
+                </Button>
+                <Button onClick={restartTest} variant="outline">
+                  Realizar Test Nuevamente
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+          
+          {showDownload && (
+            <DownloadOptions 
+              testResult={testResult}
+              onClose={() => setShowDownload(false)}
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  const progress = ((currentQuestion + 1) / 50) * 100;
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-50 to-white p-8">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-purple-900 mb-4">
-            Test AQ-50 (Autism Quotient Extended)
-          </h1>
-          <p className="text-purple-700">
-            Cuestionario extendido de detección de rasgos autistas
-          </p>
-        </div>
-        <div className="bg-white p-6 rounded-lg shadow-md border">
-          <p className="text-purple-800 mb-4">
-            Esta página está funcionando correctamente.
-          </p>
-          <p className="text-gray-600">
-            El test completo estará disponible pronto.
-          </p>
-          <div className="mt-6 p-4 bg-purple-50 rounded-md">
-            <p className="text-purple-700 text-sm">
-              ✅ Página desplegada exitosamente usando Tailwind CSS estándar
-            </p>
-          </div>
-        </div>
+        <Card className="shadow-lg">
+          <CardHeader>
+            <div className="flex justify-between items-center mb-4">
+              <Badge variant="secondary">AQ-50</Badge>
+              <span className="text-sm text-gray-600">
+                Pregunta {currentQuestion + 1} de 50
+              </span>
+            </div>
+            
+            <Progress value={progress} className="mb-4" />
+            
+            <CardTitle className="text-2xl text-purple-900">
+              Test AQ-50 (Autism Quotient Extended)
+            </CardTitle>
+            <CardDescription>
+              Cuestionario extendido de detección de rasgos autistas en adultos
+            </CardDescription>
+          </CardHeader>
+          
+          <CardContent className="space-y-6">
+            <Card className="bg-purple-50">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-3">
+                  <Info className="w-5 h-5 text-purple-600 mt-0.5 flex-shrink-0" />
+                  <p className="text-lg text-purple-900 font-medium">
+                    {aq50Questions[currentQuestion]}
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <div className="space-y-3">
+              {options.map((option) => (
+                <Card 
+                  key={option.value}
+                  className={`cursor-pointer transition-all hover:shadow-md ${
+                    answers[currentQuestion] === option.value 
+                      ? 'ring-2 ring-purple-500 bg-purple-50' 
+                      : 'hover:bg-gray-50'
+                  }`}
+                  onClick={() => handleAnswer(option.value)}
+                >
+                  <CardContent className="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${
+                        answers[currentQuestion] === option.value
+                          ? 'border-purple-500 bg-purple-500'
+                          : 'border-gray-300'
+                      }`}>
+                        {answers[currentQuestion] === option.value && (
+                          <div className="w-2 h-2 bg-white rounded-full mx-auto mt-0.5" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">{option.label}</p>
+                        <p className="text-sm text-gray-600">{option.description}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            
+            <div className="flex justify-between">
+              <Button
+                onClick={prevQuestion}
+                disabled={currentQuestion === 0}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Anterior
+              </Button>
+              
+              {currentQuestion === 49 ? (
+                <Button
+                  onClick={finishTest}
+                  className="bg-purple-600 hover:bg-purple-700 flex items-center gap-2"
+                >
+                  <CheckCircle className="w-4 h-4" />
+                  Finalizar Test
+                </Button>
+              ) : (
+                <Button
+                  onClick={nextQuestion}
+                  className="bg-purple-600 hover:bg-purple-700 flex items-center gap-2"
+                >
+                  Siguiente
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              )}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
-  )
+  );
 }
