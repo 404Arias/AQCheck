@@ -8,16 +8,61 @@ Una aplicación web moderna y completa para realizar tests de autismo AQ-10 y AQ
 - **Sistema de Pagos**: Integración con PayPal para desbloquear resultados
 - **Panel de Administración**: Gestión completa de pagos, estadísticas y configuración
 - **Diseño Responsivo**: Optimizado para móvil y escritorio
-- **Exportación de Resultados**: Descarga de resultados en TXT y PNG
+- **Exportación de Resultados**: Descarga de resultados en múltiples formatos (PDF, PNG, TXT)
 - **Bloques JavaScript Personalizados**: Soporte para píxeles y scripts de terceros
+
+## ✨ Mejoras Implementadas (Última Versión)
+
+### 🎨 **Diseño Médico/Psicológico Profesional**
+- Sistema de colores calmantes (azules, verdes, púrpuras terapéuticos)
+- Tipografía optimizada para legibilidad médica
+- Animaciones suaves que reducen la ansiedad
+- Sombras profesionales y gradientes médicos
+
+### 📊 **Sistema de Resultados Mejorado**
+- Gráficos circulares interactivos con visualización de progreso
+- Análisis por categorías para AQ-50 (Habilidades Sociales, Comunicación, etc.)
+- Comparación con población general y datos científicos
+- Interpretaciones detalladas basadas en investigación
+
+### 📥 **Funcionalidades de Exportación Completas**
+- **PDF Profesional**: Reportes completos con gráficos e interpretaciones
+- **Imagen Compartible**: Resultados visuales para redes sociales (con privacidad)
+- **Impresión Optimizada**: Layout profesional para documentos físicos
+- **Copia Rápida**: Funcionalidad de copiar al portapapeles
+
+### 🧠 **Tests Mejorados**
+- **AQ-10**: Preguntas científicamente validadas con scoring correcto
+- **AQ-50**: Test completo con análisis detallado y referencias poblacionales
+- **Navegación Intuitiva**: Auto-avance opcional, indicadores de progreso
+- **Validación en Tiempo Real**: Prevención de errores antes de continuar
+
+### 🏠 **Homepage Profesional**
+- Hero section impactante con indicadores de confianza
+- Comparación clara entre AQ-10 y AQ-50
+- Testimonios de usuarios (anonimizados)
+- Tabla comparativa de características
+
+### ♿ **Accesibilidad (WCAG 2.1 AA)**
+- Navegación por teclado completa
+- Contraste de colores optimizado
+- Lectores de pantalla compatibles
+- Indicadores visuales claros
+
+### 📱 **Experiencia Mobile-First**
+- Diseño táctil optimizado
+- Componentes responsivos
+- Performance optimizada para conexiones lentas
 
 ## Tecnologías Utilizadas
 
-- **Frontend**: Next.js 15, TypeScript, Tailwind CSS, shadcn/ui
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS 4, shadcn/ui
 - **Backend**: Next.js API Routes, Prisma ORM
 - **Base de Datos**: SQLite (por defecto) o MySQL/PostgreSQL
 - **Pagos**: PayPal Checkout SDK
 - **Analytics**: Google Analytics 4
+- **Diseño**: Sistema médico/psicológico profesional con colores calmantes
+- **UX**: Componentes optimizados para evaluaciones psicológicas
 
 ## Instalación
 
@@ -226,7 +271,29 @@ Para obtener el ID de Google Analytics:
 
 ## Despliegue
 
-### Producción
+### ✅ Pre-deploy Checklist
+
+Antes de hacer deploy, asegúrate de que:
+
+1. **Build exitoso**:
+   ```bash
+   npm run build
+   ```
+   ✅ Sin errores de compilación
+
+2. **Linting limpio**:
+   ```bash
+   npm run lint
+   ```
+   ✅ Sin warnings de ESLint
+
+3. **Base de datos configurada**:
+   ```bash
+   npm run db:push
+   ```
+   ✅ Schema actualizado
+
+### Producción (Servidor Propio)
 
 1. **Construir la aplicación**
    ```bash
@@ -238,11 +305,52 @@ Para obtener el ID de Google Analytics:
    npm start
    ```
 
+3. **Variables de entorno de producción**
+   ```env
+   NODE_ENV=production
+   DATABASE_URL="mysql://usuario:contraseña@servidor:3306/aqtest"
+   ```
+
 ### Vercel (Recomendado)
 
 1. **Conectar repositorio a Vercel**
 2. **Configurar variables de entorno** (incluyendo `DATABASE_URL`)
-3. **Desplegar automáticamente**
+3. **Configurar comandos de build**:
+   - Build Command: `npm run build`
+   - Output Directory: `.next`
+   - Install Command: `npm install`
+
+4. **Desplegar automáticamente**
+
+### Railway/PlanetScale (Alternativa)
+
+Para bases de datos serverless:
+
+1. **Configurar DATABASE_URL** con PlanetScale o Railway
+2. **Deploy automático** conectando el repositorio
+
+### Docker (Opcional)
+
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]
+```
+
+### Optimizaciones de Performance
+
+La aplicación está optimizada para deploy con:
+
+- ✅ **Tailwind CSS 4** configurado correctamente
+- ✅ **Componentes lazy-loaded**
+- ✅ **Imágenes optimizadas**
+- ✅ **Bundle splitting automático**
+- ✅ **Static page generation** donde aplica
 
 ## Estructura del Proyecto
 
